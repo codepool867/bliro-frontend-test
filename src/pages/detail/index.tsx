@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import clxs from "classnames";
 import useBookInWishlist from "../../hooks/useBookInWhislist";
+import Rating from "../../components/Rating";
 
 import { ChevronDoubleLeftIcon, StarIcon as FillStarIcon } from '@heroicons/react/24/solid';
 import { StarIcon } from '@heroicons/react/24/outline';
 import { useStore } from "../../store";
 import { DetailBook } from "../../store/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
+
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -73,24 +75,7 @@ export default function Detail() {
               <p className="text-lg tracking-tight text-gray-900">{book?.publisher} {book?.publishedDate}</p>
             </div>
             {/* Reviews */}
-            <div className="mt-3">
-              <h3 className="sr-only">Reviews</h3>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={clxs(
-                        book?.rating as number > rating ? 'text-indigo-500' : 'text-gray-300',
-                        'h-5 w-5 flex-shrink-0'
-                      )}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="sr-only">{"product.rating"} out of 5 stars</p>
-              </div>
-            </div>
+            <Rating bookId={book?.id} />
 
             <div className="mt-6">
               <h3 className="sr-only">Description</h3>

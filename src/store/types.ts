@@ -7,10 +7,10 @@ export interface Book {
   publisher: string;
   publishedDate: string;
   smallThumbnail: string;
+  rating: number;
 }
 
 export interface DetailBook extends Book {
-  rating: number;
   description: string;
   thumbnail: string;
 }

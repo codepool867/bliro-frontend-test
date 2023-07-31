@@ -1,6 +1,7 @@
 import { Book } from "./types";
 
 const WISHLIST_KEY = "wishlist";
+const RATING_KEY = "rating";
 
 const addBookToWishlist = (book: Book) => {
   const books = loadWishlist();
@@ -24,8 +25,28 @@ const saveWishlist = (books: Book[]) => {
   return books;
 }
 
+const loadRating = () => {
+  const ratings = localStorage.getItem(RATING_KEY);
+  if(!ratings) return {};
+  return JSON.parse(ratings);
+}
+
+const saveRating = (ratings: object) => {
+  localStorage.setItem(RATING_KEY, JSON.stringify(ratings));
+  return ratings;
+}
+
+const setRatingById = (bookId: string, rating: number) => {
+  const ratings = loadRating();
+  ratings[bookId] = rating;
+  return saveRating(ratings);
+}
+
 export default {
   addBookToWishlist,
   removeBookFromWishlist,
-  loadWishlist
+  loadWishlist,
+  loadRating,
+  saveRating,
+  setRatingById
 }

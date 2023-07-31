@@ -9,8 +9,9 @@ export interface Store {
   keyword: string;
   curPage: number;
   totalItems: number;
-  pagePerSize: number,
+  pagePerSize: number;
   loading: boolean;
+  ratings: Rating;
 
   loadBooks: (keyword: string, page: number) => Promise<void>;
   loadBooksByKeyword: (keyword: string) => void;
@@ -18,6 +19,12 @@ export interface Store {
   addBookToWishlist: (book: Book | DetailBook | null) => void;
   removeBookFromWishlist: (id: string) => void;
   loadBookById: (id: string) => Promise<DetailBook>;
+  loadRatingById: (id: string) => number;
+  setRatingById: (id: string, rating: number) => void;
+}
+
+export interface Rating {
+  [key: string]: number;
 }
 
 const getBook = (item: any) => {
@@ -44,6 +51,7 @@ export const useStore = create<Store>((set, get) => ({
   totalItems: 0,
   keyword: "",
   loading: false,
+  ratings: storage.loadRating(),
 
   loadBooks: async (keyword, page) => {
     set(({loading: true}));
@@ -86,4 +94,15 @@ export const useStore = create<Store>((set, get) => ({
       return getBook(response);
     return response;
   },
+  loadRatingById: (id: string) => {
+    const ratings = get().ratings;
+    if(!ratings[id])
+      return 0;
+    return ratings[id];
+  },
+  setRatingById: (id: string, rating: number) => {
+    set({
+      ratings: storage.setRatingById(id, rating) as Rating
+    })
+  }
 }))
